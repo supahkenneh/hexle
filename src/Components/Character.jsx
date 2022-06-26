@@ -1,7 +1,7 @@
 const Character = (prop) => {
     return (
         <div className="character">
-            <div>{prop.value.toUpperCase()}</div>
+            <div>{prop.value ? prop.value.toUpperCase() : ' '}</div>
         </div>
     )
 }

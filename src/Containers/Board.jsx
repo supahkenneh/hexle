@@ -1,10 +1,10 @@
 import { Component, Fragment } from "react";
 import Color from "../Components/Color";
-import Character from "../Components/Character";
+import KeyboardContainer from "./KeyboardContainer";
+import GuessContainer from "./GuessContainer";
 
 class Board extends Component {
     state;
-
     constructor() {
         super();
         this.state = { color: '' };
@@ -21,14 +21,8 @@ class Board extends Component {
                 <div className="color-container">
                     <Color color={this.state.color} />
                 </div>
-                <div className="character-container">
-                    {this.state.color.split('').map(char => {
-                        return <Character value={char} />
-                    })}
-                </div>
-                <div className="keyboard-container">
-                    <div>keyboard</div>
-                </div>
+                <GuessContainer />
+                <KeyboardContainer />
             </Fragment>
         )
     }
