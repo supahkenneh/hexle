@@ -2,7 +2,7 @@ const Character = (prop) => {
     if (prop.type === 'button') {
         return (
             <div className="character">
-                <div className={prop.value === 'ENTER' ? 'keyboard-char enter' : 'keyboard-char'} onClick={prop.click}>
+                <div className={prop.value === 'ENTER' || prop.value === 'DEL' ? 'keyboard-char enter' : 'keyboard-char'} onClick={prop.click}>
                     {prop.value}
                 </div>
             </div>

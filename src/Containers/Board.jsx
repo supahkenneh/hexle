@@ -2,17 +2,19 @@ import { Component, Fragment, createContext } from "react";
 import Color from "../Components/Color";
 import KeyboardContainer from "./KeyboardContainer";
 import GuessContainer from "./GuessContainer";
+import Win from "../Components/Win";
 
 export const HexdleContext = createContext();
 
 class Board extends Component {
     state;
+    winBool;
     constructor() {
         super();
         this.state = {
             color: '',
             currentGuess: '',
-            guesses: []
+            guesses: [],
         };
     }
 
@@ -24,22 +26,37 @@ class Board extends Component {
     handleInput = e => {
         const value = e.target.innerText;
         if (value !== 'ENTER') {
-            if (this.state.currentGuess.length < 6) {
-                this.setState({ ...this.state, currentGuess: this.state.currentGuess + value })
+            if (value === 'DEL') {
+                let curr = this.state.currentGuess;
+                curr = curr.split('');
+                curr.pop();
+                curr = curr.join('');
+                this.setState({ ...this.state, currentGuess: curr })
+            } else {
+                if (this.state.currentGuess.length < 6) {
+                    this.setState({ ...this.state, currentGuess: this.state.currentGuess + value })
+                }
             }
         } else {
             // if submitting, evaluate guess
             if (this.state.currentGuess.length === 6) {
                 let guessesArr = this.state.guesses;
                 guessesArr.push({ value: this.state.currentGuess, submitted: true });
+                // evaluate win?
+                this.winBool = this.evaluateWin(this.state.currentGuess, this.state.color);
                 this.setState({ ...this.state, currentGuess: '', guesses: guessesArr });
             }
         }
     }
 
+    evaluateWin(guess, color) {
+        return guess === color ? true : false;
+    }
+
     render() {
         return (
             <Fragment>
+                {this.winBool || true ? <Win /> : ''}
                 <HexdleContext.Provider value={this.state}>
                     <div className="color-container">
                         <Color color={this.state.color} />

@@ -12,7 +12,7 @@ const Guess = (prop) => {
             placeHolder += 'x';
         }
     }
-    
+
     let charArr = [];
     let color = appState.color.split('');
     for (let i = 0; i < placeHolder.length; i++) {

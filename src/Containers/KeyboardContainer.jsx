@@ -11,7 +11,7 @@ class KeyboardContainer extends Component {
     constructor(prop) {
         super(prop)
         this.state = { ...prop };
-        this.numberLine = this.createElementArr(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',]);
+        this.numberLine = this.createElementArr(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'DEL']);
         this.alphaLineOne = this.createElementArr(['A', 'B', 'C', 'D', 'E', 'F', 'ENTER']);
     }
 
