@@ -12,9 +12,7 @@ class KeyboardContainer extends Component {
         super(prop)
         this.state = { ...prop };
         this.numberLine = this.createElementArr(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',]);
-        this.alphaLineOne = this.createElementArr(['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']);
-        this.alphaLineTwo = this.createElementArr(['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'ENTER']);
-        this.alphaLineThree = this.createElementArr(['Z', 'X', 'C', 'V', 'B', 'N', 'M']);
+        this.alphaLineOne = this.createElementArr(['A', 'B', 'C', 'D', 'E', 'F', 'ENTER']);
     }
 
     createElementArr(arr) {

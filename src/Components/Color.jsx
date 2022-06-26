@@ -7,7 +7,7 @@ const Color = (prop) => {
     };
 
     return (
-        <div style={style}></div >
+        <div style={style}>{prop.color}</div >
     )
 
 }

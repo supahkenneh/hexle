@@ -4,15 +4,15 @@ import { HexdleContext } from "./Board";
 
 const GuessContainer = (props) => {
     const appState = useContext(HexdleContext);
-
     let concatGuesses = [];
-    concatGuesses = [...appState.guesses, appState.currentGuess];
+    appState.guesses.forEach(guess => concatGuesses.push(guess));
+    concatGuesses.push({ value: appState.currentGuess, correctIdx: [], misplacedIdx: [], incorrectIdx: [] });
     while (concatGuesses.length < 6) {
-        concatGuesses.push('');
+        concatGuesses.push({ value: '', correctIdx: [], misplacedIdx: [], incorrectIdx: [] });
     }
     let guessesArr = [];
     for (let i = 0; i < concatGuesses.length; i++) {
-        guessesArr.push(<Guess guess={concatGuesses[i]} key={i} />);
+        guessesArr.push(<Guess guess={concatGuesses[i]} key={i} index={i} />);
     }
     return (
         <div className="guess-container">

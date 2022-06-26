@@ -2,9 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  letter-spacing: 5px;
+  font-size: 3em;
 }
 
 .color-container {
@@ -73,6 +73,21 @@
   justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-
+.keyboard-char:active {
+  background-color: white;
+  color: black;
 }
+
+.correct {
+  background-color: green;
+}
+
+.misplaced {
+  background-color: yellow;
+}
+
+.incorrect {
+  background-color: gray;
+}
+
+@media (prefers-reduced-motion: no-preference) {}
