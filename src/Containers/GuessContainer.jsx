@@ -6,9 +6,9 @@ const GuessContainer = (props) => {
     const appState = useContext(HexdleContext);
     let concatGuesses = [];
     appState.guesses.forEach(guess => concatGuesses.push(guess));
-    concatGuesses.push({ value: appState.currentGuess, correctIdx: [], misplacedIdx: [], incorrectIdx: [] });
+    concatGuesses.push({ value: appState.currentGuess, submitted: false });
     while (concatGuesses.length < 6) {
-        concatGuesses.push({ value: '', correctIdx: [], misplacedIdx: [], incorrectIdx: [] });
+        concatGuesses.push({ value: '', submitted: false });
     }
     let guessesArr = [];
     for (let i = 0; i < concatGuesses.length; i++) {
