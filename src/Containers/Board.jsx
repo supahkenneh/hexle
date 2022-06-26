@@ -1,13 +1,19 @@
-import { Component, Fragment } from "react";
+import { Component, Fragment, createContext } from "react";
 import Color from "../Components/Color";
 import KeyboardContainer from "./KeyboardContainer";
 import GuessContainer from "./GuessContainer";
+
+export const HexdleContext = createContext();
 
 class Board extends Component {
     state;
     constructor() {
         super();
-        this.state = { color: '' };
+        this.state = {
+            color: '',
+            currentGuess: '',
+            guesses: []
+        };
     }
 
     componentDidMount() {
@@ -15,14 +21,28 @@ class Board extends Component {
         this.setState({ color });
     }
 
+    handleInput = e => {
+        const value = e.target.innerText;
+        if (this.state.currentGuess.length < 6) {
+            this.setState({ ...this.state, currentGuess: this.state.currentGuess += value })
+        } else {
+            let guess = this.state.currentGuess;
+            let guessesArr = this.state.guesses;
+            guessesArr.push(guess);
+            this.setState({ ... this.state, currentGuess: value, guesses: guessesArr });
+        }
+    }
+
     render() {
         return (
             <Fragment>
-                <div className="color-container">
-                    <Color color={this.state.color} />
-                </div>
-                <GuessContainer />
-                <KeyboardContainer />
+                <HexdleContext.Provider value={this.state}>
+                    <div className="color-container">
+                        <Color color={this.state.color} />
+                    </div>
+                    <GuessContainer data={this.state.data} />
+                    <KeyboardContainer input={this.handleInput} />
+                </HexdleContext.Provider>
             </Fragment>
         )
     }

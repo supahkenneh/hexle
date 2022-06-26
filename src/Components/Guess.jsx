@@ -1,14 +1,12 @@
 import Character from "./Character";
 
 const Guess = (prop) => {
-    const characters = 6;
-
     let charArr = [];
-    for (let i = 0; i < characters; i++) {
-        charArr.push(<Character key={i}/>);
+    for (let i = 0; i < 6; i++) {
+        charArr.push(<Character key={i} value={prop.guess[i]} />);
     }
     return (
-        <div>{charArr}</div>
+        <div className="guess">{charArr}</div>
     )
 }
 

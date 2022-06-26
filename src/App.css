@@ -13,8 +13,7 @@
 }
 
 .guess-container {
-  display: flex;
-  justify-content: center;
+  display: grid;
   margin: 15px auto;
 }
 
@@ -36,7 +35,19 @@
   font-size: 2em;
 }
 
-.character button {
+.keyboard-char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.5em;
+  background-color: black;
+  color: white;
+}
+
+.lines button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,8 +64,15 @@
   justify-content: center;
 }
 
+.keyboard-char.enter {
+  width: 3.5em;
+}
+
+.guess {
+  display: flex;
+  justify-content: center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
 }
