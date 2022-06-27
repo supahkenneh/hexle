@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/supahkenneh/hexle/static/css/main.4f57bd97.css",
+    "main.js": "/supahkenneh/hexle/static/js/main.5cf48081.js",
+    "static/js/787.b7eb5c8c.chunk.js": "/supahkenneh/hexle/static/js/787.b7eb5c8c.chunk.js",
+    "index.html": "/supahkenneh/hexle/index.html",
+    "main.4f57bd97.css.map": "/supahkenneh/hexle/static/css/main.4f57bd97.css.map",
+    "main.5cf48081.js.map": "/supahkenneh/hexle/static/js/main.5cf48081.js.map",
+    "787.b7eb5c8c.chunk.js.map": "/supahkenneh/hexle/static/js/787.b7eb5c8c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4f57bd97.css",
+    "static/js/main.5cf48081.js"
+  ]
+}
