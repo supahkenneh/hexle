@@ -57,7 +57,7 @@ class Board extends Component {
 
     closeModal = () => {
         this.winBool = false;
-        this.setState({ ... this.state });
+        this.setState({ ...this.state });
     }
 
     render() {

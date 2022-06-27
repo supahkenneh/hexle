@@ -4,8 +4,6 @@ import Character from "../Components/Character";
 class KeyboardContainer extends Component {
     numberLine;
     alphaLineOne;
-    alphaLineTwo;
-    alphaLineThree;
     state;
 
     constructor(prop) {
@@ -31,12 +29,6 @@ class KeyboardContainer extends Component {
                 </div>
                 <div className="lines">
                     {this.alphaLineOne}
-                </div>
-                <div className="lines">
-                    {this.alphaLineTwo}
-                </div>
-                <div className="lines">
-                    {this.alphaLineThree}
                 </div>
             </div >
         )
