@@ -2,13 +2,14 @@ import { Component, Fragment, createContext } from "react";
 import Color from "../Components/Color";
 import KeyboardContainer from "./KeyboardContainer";
 import GuessContainer from "./GuessContainer";
-import Win from "../Components/Win";
+import Modal from "../Components/Modal";
 
 export const HexdleContext = createContext();
 
 class Board extends Component {
     state;
     winBool;
+    winText;
     constructor() {
         super();
         this.state = {
@@ -50,13 +51,19 @@ class Board extends Component {
     }
 
     evaluateWin(guess, color) {
+        this.winText = { header: 'Congratulations!', descr: `You got the Hexle in ${this.state.guesses.length}/6 attempts!` };
         return guess === color;
+    }
+
+    closeModal = () => {
+        this.winBool = false;
+        this.setState({ ... this.state });
     }
 
     render() {
         return (
             <Fragment>
-                {this.winBool ? <Win attempts={this.state.guesses.length} /> : ''}
+                {this.winBool ? <Modal textObj={this.winText} style={{ height: '200px' }} handleClose={this.closeModal} /> : ''}
                 <HexdleContext.Provider value={this.state}>
                     <div className="color-container">
                         <Color color={this.state.color} />
