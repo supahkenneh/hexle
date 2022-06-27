@@ -50,13 +50,13 @@ class Board extends Component {
     }
 
     evaluateWin(guess, color) {
-        return guess === color ? true : false;
+        return guess === color;
     }
 
     render() {
         return (
             <Fragment>
-                {this.winBool || true ? <Win /> : ''}
+                {this.winBool ? <Win attempts={this.state.guesses.length} /> : ''}
                 <HexdleContext.Provider value={this.state}>
                     <div className="color-container">
                         <Color color={this.state.color} />

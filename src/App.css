@@ -103,12 +103,19 @@ h1 {
 
 .win-modal-content {
   background-color: #fefefe;
-  margin: auto;
-  width: 500px;
-  height: 500px;
+  margin: 125px auto;
+  width: 300px;
+  height: 200px;
   padding: 20px;
   border-radius: 5px;
   border: 1px solid #888 width 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {}
+.content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
