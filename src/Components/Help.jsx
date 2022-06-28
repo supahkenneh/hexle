@@ -12,7 +12,7 @@ class Help extends Component {
             header: 'What is Hexle?',
             descr: `
             Hexle is the combination of hexcode and 'Wordle' (a popular word game by the New York Times).
-            Any colors viewed on the web are assigned a 6 character code consisting of numbers 1-9 and
+            Any colors viewed on the web are assigned a 6 character code consisting of numbers 0-9 and
             alphabets A-F. You are shown the color that the hexcode represents and you have six tries
             to guess the hexcode for the color that is displayed.`,
             descr2: `
