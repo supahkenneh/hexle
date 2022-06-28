@@ -36,7 +36,7 @@ class Help extends Component {
         return (
             <Fragment>
                 {this.state.visible ? <Modal textObj={this.textObj} style={{ height: '400px' }} handleClose={this.closeModal} /> : ''}
-                <button className="help-icon" onClick={this.toggleHelpText}>?</button>
+                <button className="help-icon" onClick={this.toggleHelpText}>❔</button>
             </Fragment >
         )
     }

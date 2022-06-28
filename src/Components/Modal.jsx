@@ -8,7 +8,7 @@ const Modal = (prop) => {
                     <br />
                     <div>{prop.textObj.descr2}</div>
                     <br />
-                    <span className="close" onClick={prop.handleClose}>X</span>
+                    <span className="close" onClick={prop.handleClose}>✖</span>
                 </div>
             </div>
         </div>

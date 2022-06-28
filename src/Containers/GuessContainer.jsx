@@ -11,6 +11,7 @@ const GuessContainer = (props) => {
         concatGuesses.push({ value: '', submitted: false });
     }
     let guessesArr = [];
+    if (concatGuesses.length > 6) concatGuesses.pop();
     for (let i = 0; i < concatGuesses.length; i++) {
         guessesArr.push(<Guess guess={concatGuesses[i]} key={i} index={i} />);
     }

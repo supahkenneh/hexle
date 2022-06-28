@@ -10,6 +10,8 @@ class Board extends Component {
     state;
     winBool;
     winText;
+    loseBool;
+    loseText;
     constructor() {
         super();
         this.state = {
@@ -20,12 +22,12 @@ class Board extends Component {
     }
 
     componentDidMount() {
-        const colorChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-        let color = '#';
+        let colorChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
+        let color = '';
         for (let i = 0; i < 6; i++) {
             let index = Math.floor(Math.random() * 16)
             let value = colorChars[index]
-            colorChars += value
+            color += value
         }
         this.setState({ color });
     }
@@ -51,6 +53,11 @@ class Board extends Component {
                 guessesArr.push({ value: this.state.currentGuess, submitted: true });
                 // evaluate win?
                 this.winBool = this.evaluateWin(this.state.currentGuess, this.state.color);
+                // if out of guesses, display lose message
+                if (guessesArr.length === 6) {
+                    this.loseBool = true;
+                    this.loseText = { header: `Sorry, you're out of guesses`, descr: `The hexcode was #${this.state.color.toUpperCase()}, better luck next time!` };
+                }
                 this.setState({ ...this.state, currentGuess: '', guesses: guessesArr });
             }
         }
@@ -63,14 +70,16 @@ class Board extends Component {
 
     closeModal = () => {
         this.winBool = false;
+        this.loseBool = false;
         this.setState({ ...this.state });
     }
 
     render() {
         return (
             <Fragment>
-                {this.winBool ? <Modal textObj={this.winText} style={{ height: '200px' }} handleClose={this.closeModal} /> : ''}
                 <HexdleContext.Provider value={this.state}>
+                    {this.winBool ? <Modal textObj={this.winText} style={{ height: '200px' }} handleClose={this.closeModal} /> : ''}
+                    {this.loseBool ? <Modal textObj={this.loseText} style={{ height: '200px' }} handleClose={this.closeModal} /> : ''}
                     <div className="color-container">
                         <Color color={this.state.color} />
                     </div>
