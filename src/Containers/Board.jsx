@@ -22,14 +22,40 @@ class Board extends Component {
     }
 
     componentDidMount() {
-        let colorChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
         let color = '';
+        let storedDate = window.localStorage.getItem('date');
+        let today = new Date();
+        today = `${today.getMonth() + 1}-${today.getDate()}-${today.getFullYear()}`;
+        if (!storedDate) {
+            // store today's date if no stored date
+            window.localStorage.setItem('date', today);
+        } else if (storedDate !== today) {
+            // new day - generate new color and store in browser
+            color = this.generateColor();
+            this.setState({ color });
+            window.localStorage.setItem('color', color);
+        } else if (storedDate === today) {
+            // if same day, get today's color
+            color = window.localStorage.getItem('color');
+            if (!color) {
+                color = this.generateColor();
+                this.setState({ color });
+                window.localStorage.setItem('color', color);
+            } else {
+                this.setState({ color });
+            }
+        }
+    }
+
+    generateColor() {
+        let color = '';
+        let colorChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
         for (let i = 0; i < 6; i++) {
             let index = Math.floor(Math.random() * 16)
             let value = colorChars[index]
-            color += value
+            color += value.toUpperCase();
         }
-        this.setState({ color });
+        return color;
     }
 
     handleInput = e => {
@@ -54,10 +80,17 @@ class Board extends Component {
                 // evaluate win?
                 this.winBool = this.evaluateWin(this.state.currentGuess, this.state.color);
                 // if out of guesses, display lose message
-                if (guessesArr.length === 6) {
+                if (guessesArr.length === 6 && !this.winBool) {
                     this.loseBool = true;
                     this.loseText = { header: `Sorry, you're out of guesses`, descr: `The hexcode was #${this.state.color.toUpperCase()}, better luck next time!` };
+                    window.localStorage.setItem('streak', '0');
                 }
+                // log to local storage
+                if (this.winBool) {
+                    window.localStorage.setItem('win', 'true')
+                    window.localStorage.setItem('winCount', (Number(window.localStorage.getItem('winCount')) + 1).toString());
+                    window.localStorage.setItem('streak', (Number(window.localStorage.getItem('streak')) + 1).toString());
+                };
                 this.setState({ ...this.state, currentGuess: '', guesses: guessesArr });
             }
         }
