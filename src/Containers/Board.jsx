@@ -44,7 +44,11 @@ class Board extends Component {
             }
             // get guesses
             let guesses = JSON.parse(window.localStorage.getItem('guesses'));
-            this.setState({ color, guesses });
+            if (guesses?.length) {
+                this.setState({ color, guesses });
+            } else {
+                this.setState({ color });
+            }
         }
     }
 
@@ -81,7 +85,7 @@ class Board extends Component {
                 // evaluate win?
                 this.winBool = this.evaluateWin(this.state.currentGuess, this.state.color);
                 // if out of guesses, display lose message
-                if (guessesArr.length === 6 && !this.winBool) {
+                if (guessesArr?.length === 6 && !this.winBool) {
                     this.loseBool = true;
                     this.loseText = { header: `Sorry, you're out of guesses`, descr: `The hexcode was #${this.state.color.toUpperCase()}, better luck next time!` };
                     window.localStorage.setItem('streak', '0');
@@ -99,7 +103,7 @@ class Board extends Component {
     }
 
     evaluateWin(guess, color) {
-        this.winText = { header: 'Congratulations!', descr: `You got the Hexle in ${this.state.guesses.length}/6 attempts!` };
+        this.winText = { header: 'Congratulations!', descr: `You got the Hexle in ${this.state.guesses?.length}/6 attempts!` };
         return guess === color;
     }
 
