@@ -40,11 +40,11 @@ class Board extends Component {
             color = window.localStorage.getItem('color');
             if (!color) {
                 color = this.generateColor();
-                this.setState({ color });
                 window.localStorage.setItem('color', color);
-            } else {
-                this.setState({ color });
             }
+            // get guesses
+            let guesses = JSON.parse(window.localStorage.getItem('guesses'));
+            this.setState({ color, guesses });
         }
     }
 
@@ -69,7 +69,7 @@ class Board extends Component {
                 curr = curr.join('');
                 this.setState({ ...this.state, currentGuess: curr })
             } else {
-                if (this.state.currentGuess.length < 6) {
+                if (this.state.currentGuess.length < 6 && !e.target.classList.contains('invalid')) {
                     this.setState({ ...this.state, currentGuess: this.state.currentGuess + value })
                 }
             }
@@ -92,6 +92,7 @@ class Board extends Component {
                     window.localStorage.setItem('winCount', (Number(window.localStorage.getItem('winCount')) + 1).toString());
                     window.localStorage.setItem('streak', (Number(window.localStorage.getItem('streak')) + 1).toString());
                 };
+                window.localStorage.setItem('guesses', JSON.stringify(guessesArr));
                 this.setState({ ...this.state, currentGuess: '', guesses: guessesArr });
             }
         }

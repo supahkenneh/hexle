@@ -1,39 +1,37 @@
-import { Component } from "react";
 import Character from "../Components/Character";
+import { useContext } from "react";
+import { HexdleContext } from "./Board";
 
-class KeyboardContainer extends Component {
-    numberLine;
-    alphaLineOne;
-    state;
+const KeyboardContainer = (prop) => {
+    const numberLine = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'DEL'];
+    const alphaLine = ['A', 'B', 'C', 'D', 'E', 'F', 'ENTER'];
 
-    constructor(prop) {
-        super(prop)
-        this.state = { ...prop };
-        this.numberLine = this.createElementArr(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'DEL']);
-        this.alphaLineOne = this.createElementArr(['A', 'B', 'C', 'D', 'E', 'F', 'ENTER']);
-    }
-
-    createElementArr(arr) {
-        const elementArr = [];
-        for (let i = 0; i < arr.length; i++) {
-            elementArr.push(<Character value={arr[i]} type="button" key={i} click={this.state.input} />)
-        }
-        return elementArr;
-    }
-
-    render() {
-        return (
-            <div className="keyboardContainer" >
-                <div className="lines">
-                    {this.numberLine}
-                </div>
-                <div className="lines">
-                    {this.alphaLineOne}
-                </div>
-            </div >
-        )
-    }
-}
-
+    const appState = useContext(HexdleContext);
+    let incorrectChars = [];
+    appState.guesses.map(guess => {
+        let splitGuess = guess.value.split('');
+        return splitGuess.forEach(char => {
+            if (incorrectChars.indexOf(char) === -1 && appState.color.indexOf(char) === -1) incorrectChars.push(char);
+        })
+    });
+    return (
+        <div className="keyboardContainer" >
+            <div className="lines">
+                {numberLine.map((char, i) => {
+                    let keyClass = '';
+                    incorrectChars.indexOf(char) > -1 ? keyClass = 'invalid' : keyClass = '';
+                    return <Character value={char} type="button" key={i} click={prop.input} styleClass={keyClass} />
+                })}
+            </div>
+            <div className="lines">
+                {alphaLine.map((char, i) => {
+                    let keyClass = '';
+                    incorrectChars.indexOf(char) > -1 ? keyClass = 'invalid' : keyClass = '';
+                    return <Character value={char} type="button" key={i} click={prop.input} styleClass={keyClass} />
+                })}
+            </div>
+        </div >
+    )
+};
 
 export default KeyboardContainer;
