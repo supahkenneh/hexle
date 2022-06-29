@@ -34,6 +34,7 @@ class Board extends Component {
             color = this.generateColor();
             this.setState({ color });
             window.localStorage.setItem('color', color);
+            window.localStorage.setItem('date', today);
         } else if (storedDate === today) {
             // if same day, get today's color
             color = window.localStorage.getItem('color');
