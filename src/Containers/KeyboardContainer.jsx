@@ -8,7 +8,7 @@ const KeyboardContainer = (prop) => {
 
     const appState = useContext(HexdleContext);
     let incorrectChars = [];
-    appState.guesses.map(guess => {
+    appState.guesses?.map(guess => {
         let splitGuess = guess.value.split('');
         return splitGuess.forEach(char => {
             if (incorrectChars.indexOf(char) === -1 && appState.color.indexOf(char) === -1) incorrectChars.push(char);

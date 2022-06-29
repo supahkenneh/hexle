@@ -5,7 +5,11 @@ import { HexdleContext } from "./Board";
 const GuessContainer = (props) => {
     const appState = useContext(HexdleContext);
     let concatGuesses = [];
-    appState.guesses.forEach(guess => concatGuesses.push(guess));
+    // if (appState.guesses?.length) {
+    appState.guesses?.forEach(guess => {
+        concatGuesses.push(guess)
+    });
+    // }
     concatGuesses.push({ value: appState.currentGuess, submitted: false });
     while (concatGuesses.length < 6) {
         concatGuesses.push({ value: '', submitted: false });
