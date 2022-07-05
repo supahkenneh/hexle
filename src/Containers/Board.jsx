@@ -35,6 +35,7 @@ class Board extends Component {
             this.setState({ color });
             window.localStorage.setItem('color', color);
             window.localStorage.setItem('date', today);
+            window.localStorage.removeItem('guesses');
         } else if (storedDate === today) {
             // if same day, get today's color
             color = window.localStorage.getItem('color');
@@ -103,7 +104,7 @@ class Board extends Component {
     }
 
     evaluateWin(guess, color) {
-        this.winText = { header: 'Congratulations!', descr: `You got the Hexle in ${this.state.guesses?.length}/6 attempts!` };
+        this.winText = { header: 'Congratulations!', descr: `You got the Hexle in ${this.state.guesses?.length}/6 attempts! \n Your current streak is ${window.localStorage.getItem('streak')}` };
         return guess === color;
     }
 
