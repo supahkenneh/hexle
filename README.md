@@ -16,4 +16,4 @@ In this game, a color is shown to you daily and you have 6 chances to guess the 
 ## Links
 - Game: https://www.supahkenneh.com/hexle
 - Github Repo: https://github.com/supahkenneh/hexle
-- Portfolio: https://www.supahkenneh.com
+- Portfolio: https://www.kennychung.dev
