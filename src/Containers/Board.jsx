@@ -1,127 +1,54 @@
-import { Component, Fragment, createContext } from 'react';
-import Color from '../Components/Color';
+import { useEffect, useReducer } from 'react';
+import { Color } from '../Components/Color';
 import KeyboardContainer from './KeyboardContainer';
 import GuessContainer from './GuessContainer';
 import { Modal } from '../Components/Modal';
+import { HexleContext, initialState, reducer } from '../context';
 
-export const HexdleContext = createContext();
+export const Board = () => {
+  let winBool;
+  let winText;
+  let loseBool;
+  let loseText;
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-class Board extends Component {
-  state;
-  winBool;
-  winText;
-  loseBool;
-  loseText;
-  constructor() {
-    super();
-    this.state = {
-      color: '',
-      currentGuess: '',
-      guesses: [],
-    };
-  }
+  useEffect(() => {
+    dispatch({ type: 'INIT_HEXLE' });
+  }, []);
 
-  componentDidMount() {
-    let color = '';
-    let storedDate = window.localStorage.getItem('date');
-    let today = new Date();
-    today = `${today.getMonth() + 1}-${today.getDate()}-${today.getFullYear()}`;
-    if (!storedDate) {
-      // store today's date if no stored date
-      window.localStorage.setItem('date', today);
-    } else if (storedDate !== today) {
-      // new day - generate new color and store in browser
-      color = this.generateColor();
-      this.setState({ color });
-      window.localStorage.setItem('color', color);
-      window.localStorage.setItem('date', today);
-      window.localStorage.removeItem('guesses');
-    } else if (storedDate === today) {
-      // if same day, get today's color
-      color = window.localStorage.getItem('color');
-      if (!color) {
-        color = this.generateColor();
-        window.localStorage.setItem('color', color);
-      }
-      // get guesses
-      let guesses = JSON.parse(window.localStorage.getItem('guesses'));
-      if (guesses?.length) {
-        this.setState({ color, guesses });
-      } else {
-        this.setState({ color });
-      }
-    }
-  }
-
-  generateColor() {
-    let color = '';
-    let colorChars = [
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      'a',
-      'b',
-      'c',
-      'd',
-      'e',
-      'f',
-    ];
-    for (let i = 0; i < 6; i++) {
-      let index = Math.floor(Math.random() * 16);
-      let value = colorChars[index];
-      color += value.toUpperCase();
-    }
-    return color;
-  }
-
-  handleInput = (e) => {
+  const handleInput = (e) => {
     const value = e.target.innerText;
     if (value !== 'ENTER') {
       if (value === 'DEL') {
-        let curr = this.state.currentGuess;
+        let curr = state.currentGuess;
         curr = curr.split('');
         curr.pop();
         curr = curr.join('');
-        this.setState({ ...this.state, currentGuess: curr });
       } else {
         if (
-          this.state.currentGuess.length < 6 &&
+          state.currentGuess.length < 6 &&
           !e.target.classList.contains('invalid')
         ) {
-          this.setState({
-            ...this.state,
-            currentGuess: this.state.currentGuess + value,
-          });
         }
       }
     } else {
       // if submitting, evaluate guess
-      if (this.state.currentGuess.length === 6) {
-        let guessesArr = this.state.guesses;
-        guessesArr.push({ value: this.state.currentGuess, submitted: true });
+      if (state.currentGuess.length === 6) {
+        let guessesArr = state.guesses;
+        guessesArr.push({ value: state.currentGuess, submitted: true });
         // evaluate win?
-        this.winBool = this.evaluateWin(
-          this.state.currentGuess,
-          this.state.color
-        );
+        winBool = evaluateWin(state.currentGuess, state.color);
         // if out of guesses, display lose message
-        if (guessesArr?.length === 6 && !this.winBool) {
-          this.loseBool = true;
-          this.loseText = {
+        if (guessesArr?.length === 6 && !winBool) {
+          loseBool = true;
+          loseText = {
             header: `Sorry, you're out of guesses`,
-            descr: `The hexcode was #${this.state.color.toUpperCase()}, better luck next time!`,
+            descr: `The hexcode was #${state.color.toUpperCase()}, better luck next time!`,
           };
           window.localStorage.setItem('streak', '0');
         }
         // log to local storage
-        if (this.winBool) {
+        if (winBool) {
           window.localStorage.setItem('win', 'true');
           window.localStorage.setItem(
             'winCount',
@@ -133,16 +60,15 @@ class Board extends Component {
           );
         }
         window.localStorage.setItem('guesses', JSON.stringify(guessesArr));
-        this.setState({ ...this.state, currentGuess: '', guesses: guessesArr });
       }
     }
   };
 
-  evaluateWin(guess, color) {
-    this.winText = {
+  function evaluateWin(guess, color) {
+    winText = {
       header: 'Congratulations!',
       descr: `You got the Hexle in ${
-        this.state.guesses?.length
+        state.guesses?.length
       }/6 attempts! \n Your current streak is ${window.localStorage.getItem(
         'streak'
       )}`,
@@ -150,43 +76,36 @@ class Board extends Component {
     return guess === color;
   }
 
-  closeModal = () => {
-    this.winBool = false;
-    this.loseBool = false;
-    this.setState({ ...this.state });
+  const closeModal = () => {
+    winBool = false;
+    loseBool = false;
   };
 
-  render() {
-    return (
-      <Fragment>
-        <HexdleContext.Provider value={this.state}>
-          {this.winBool ? (
-            <Modal
-              textObj={this.winText}
-              style={{ height: '200px' }}
-              handleClose={this.closeModal}
-            />
-          ) : (
-            ''
-          )}
-          {this.loseBool ? (
-            <Modal
-              textObj={this.loseText}
-              style={{ height: '200px' }}
-              handleClose={this.closeModal}
-            />
-          ) : (
-            ''
-          )}
-          <div className='color-container'>
-            <Color color={this.state.color} />
-          </div>
-          <GuessContainer data={this.state.data} />
-          <KeyboardContainer input={this.handleInput} />
-        </HexdleContext.Provider>
-      </Fragment>
-    );
-  }
-}
-
-export default Board;
+  return (
+    <HexleContext.Provider value={{ state, dispatch }}>
+      {winBool ? (
+        <Modal
+          textObj={winText}
+          style={{ height: '200px' }}
+          handleClose={closeModal}
+        />
+      ) : (
+        ''
+      )}
+      {loseBool ? (
+        <Modal
+          textObj={loseText}
+          style={{ height: '200px' }}
+          handleClose={closeModal}
+        />
+      ) : (
+        ''
+      )}
+      <div className='color-container'>
+        <Color color={state.color} />
+      </div>
+      <GuessContainer data={state.guesses} />
+      <KeyboardContainer input={handleInput} />
+    </HexleContext.Provider>
+  );
+};

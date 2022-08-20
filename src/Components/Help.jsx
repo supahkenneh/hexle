@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal } from './Modal';
 
-const Help = () => {
+export const Help = () => {
   const [visible, setVisible] = useState(false);
   const textObj = {
     header: 'What is Hexle?',
@@ -38,5 +38,3 @@ const Help = () => {
     </>
   );
 };
-
-export default Help;

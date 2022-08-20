@@ -1,6 +1,6 @@
 import './App.css';
-import Board from './Containers/Board';
-import Help from './Components/Help';
+import { Board } from './Containers/Board';
+import { Help } from './Components/Help';
 
 function App() {
   return (
