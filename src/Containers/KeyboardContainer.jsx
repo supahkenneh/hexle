@@ -2,7 +2,7 @@ import Character from '../Components/Character';
 import { useContext } from 'react';
 import { HexleContext } from '../context';
 
-const KeyboardContainer = (prop) => {
+export const KeyboardContainer = (prop) => {
   const numberLine = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'DEL'];
   const alphaLine = ['A', 'B', 'C', 'D', 'E', 'F', 'ENTER'];
 
@@ -57,5 +57,3 @@ const KeyboardContainer = (prop) => {
     </div>
   );
 };
-
-export default KeyboardContainer;

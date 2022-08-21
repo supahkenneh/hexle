@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { generateColor } from "./helpers";
 
-export const initialState = { color: '', guesses: [] };
+export const initialState = { color: '', guesses: [{ value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }] };
 
 export const HexleContext = createContext();
 
@@ -31,21 +31,18 @@ export const reducer = (state, action) => {
                 }
             }
             let guesses = JSON.parse(window.localStorage.getItem('guesses'));
-            return { color, guesses: !guesses ? [] : guesses };
+            return { color, guesses: !guesses ? initialState.guesses : guesses };
         case 'ENTER_CHAR':
             const { data } = action;
-            if (!state.guesses.length) {
-                state.guesses.push(data);
-            } else {
-                let lastGuess = state.guesses[state.guesses.length - 1];
-                if (lastGuess.length < 6) {
-                    lastGuess += data;
-                    state.guesses[state.guesses.length - 1] = lastGuess;
-                } else {
-                    state.guesses.push(data);
+            if (data !== 'ENTER') {
+                for (let i = 0; i < state.guesses.length; i++) {
+                    if (state.guesses[i].value.length < 6) {
+                        state.guesses[i].value += data;
+                        break;
+                    }
                 }
             }
-            return state;
+            return { ...state };
         default:
             break;
     }

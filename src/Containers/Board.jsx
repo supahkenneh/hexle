@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { Color } from '../Components/Color';
-import KeyboardContainer from './KeyboardContainer';
-import GuessContainer from './GuessContainer';
+import { KeyboardContainer } from './KeyboardContainer';
+import { GuessContainer } from './GuessContainer';
 import { Modal } from '../Components/Modal';
 import { HexleContext, initialState, reducer } from '../context';
 
@@ -104,7 +104,7 @@ export const Board = () => {
       <div className='color-container'>
         <Color color={state.color} />
       </div>
-      <GuessContainer data={state.guesses} />
+      <GuessContainer />
       <KeyboardContainer input={handleInput} />
     </HexleContext.Provider>
   );

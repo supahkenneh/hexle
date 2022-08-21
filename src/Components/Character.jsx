@@ -3,7 +3,7 @@ import { HexleContext } from '../context';
 import { useContext } from 'react';
 
 const Character = ({ type, click, value, styleClass }) => {
-  const { state, dispatch } = useContext(HexleContext);
+  const { dispatch } = useContext(HexleContext);
 
   const handleInput = () => {
     dispatch({ type: 'ENTER_CHAR', data: value });
