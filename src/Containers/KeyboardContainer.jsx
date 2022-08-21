@@ -6,7 +6,7 @@ export const KeyboardContainer = (prop) => {
   const numberLine = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'DEL'];
   const alphaLine = ['A', 'B', 'C', 'D', 'E', 'F', 'ENTER'];
 
-  const state = useContext(HexleContext);
+  const { state } = useContext(HexleContext);
   let incorrectChars = [];
   state.guesses?.map((guess) => {
     let splitGuess = guess.value.split('');

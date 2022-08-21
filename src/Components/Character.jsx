@@ -1,9 +1,8 @@
 import { buildClassStr, evaluatePosition } from '../helpers';
 import { HexleContext } from '../context';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 const Character = ({ type, value, styleClass, index, submitted }) => {
-  //   const [position, setPosition] = useState('');
   const { state, dispatch } = useContext(HexleContext);
   const handleInput = () => {
     dispatch({ type: 'ENTER_CHAR', data: value });
@@ -18,6 +17,7 @@ const Character = ({ type, value, styleClass, index, submitted }) => {
 
   if (type === 'button') {
     const classes = buildClassStr(type, value, styleClass);
+
     return (
       <div className='character hover:cursor-pointer'>
         <div className={classes} onClick={() => handleInput()}>
