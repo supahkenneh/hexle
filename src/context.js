@@ -1,7 +1,11 @@
 import { createContext } from "react";
-import { generateColor } from "./helpers";
+import { generateColor, evaluateGuess, ENTER, DELETE } from "./helpers";
 
-export const initialState = { color: '', guesses: [{ value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }] };
+export const initialState = {
+    color: '',
+    guesses: [{ value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }],
+    win: false
+};
 
 export const HexleContext = createContext();
 
@@ -31,17 +35,35 @@ export const reducer = (state, action) => {
                 }
             }
             let guesses = JSON.parse(window.localStorage.getItem('guesses'));
-            return { color, guesses: !guesses ? initialState.guesses : guesses };
+            return { color, guesses: !guesses ? initialState.guesses : guesses, win: false };
         case 'ENTER_CHAR':
             const { data } = action;
-            if (data !== 'ENTER') {
+            if (data !== ENTER && data !== DELETE) {
                 for (let i = 0; i < state.guesses.length; i++) {
                     if (state.guesses[i].value.length < 6) {
-                        state.guesses[i].value += data;
+                        if (i > 0 && !state.guesses[i - 1].submitted) {
+                            break;
+                        } else {
+                            state.guesses[i].value += data;
+                        }
                         break;
                     }
                 }
             }
+            if (data === ENTER) {
+                const submittedGuess = state.guesses.find(guess => guess.submitted === false && guess.value.length === 6)
+                if (submittedGuess) {
+                    submittedGuess.submitted = true;
+                    if (evaluateGuess(submittedGuess, state.color)) {
+                        state.win = true;
+                    }
+                }
+            }
+            if (data === DELETE) {
+                let lastGuess = state.guesses.find(guess => !guess.submitted);
+                lastGuess.value = lastGuess.value.slice(0, -1);
+            }
+            window.localStorage.setItem('guesses', JSON.stringify(state.guesses));
             return { ...state };
         default:
             break;

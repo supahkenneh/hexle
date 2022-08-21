@@ -37,7 +37,7 @@ export const Board = () => {
         let guessesArr = state.guesses;
         guessesArr.push({ value: state.currentGuess, submitted: true });
         // evaluate win?
-        winBool = evaluateWin(state.currentGuess, state.color);
+        // winBool = evaluateWin(state.currentGuess, state.color);
         // if out of guesses, display lose message
         if (guessesArr?.length === 6 && !winBool) {
           loseBool = true;
@@ -63,18 +63,6 @@ export const Board = () => {
       }
     }
   };
-
-  function evaluateWin(guess, color) {
-    winText = {
-      header: 'Congratulations!',
-      descr: `You got the Hexle in ${
-        state.guesses?.length
-      }/6 attempts! \n Your current streak is ${window.localStorage.getItem(
-        'streak'
-      )}`,
-    };
-    return guess === color;
-  }
 
   const closeModal = () => {
     winBool = false;

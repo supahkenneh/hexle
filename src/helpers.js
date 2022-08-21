@@ -21,3 +21,18 @@ export const buildClassStr = (type, value, styleClass) => {
     }
     return classes;
 }
+
+export const evaluateGuess = (guess, color) => {
+    // winText = {
+    //   header: 'Congratulations!',
+    //   descr: `You got the Hexle in ${
+    //     state.guesses?.length
+    //   }/6 attempts! \n Your current streak is ${window.localStorage.getItem(
+    //     'streak'
+    //   )}`,
+    // };
+    return guess === color;
+}
+
+export const ENTER = 'ENTER';
+export const DELETE = 'DEL';
