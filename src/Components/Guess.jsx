@@ -13,7 +13,15 @@ export const Guess = ({ guess, index }) => {
   return (
     <div className='guess'>
       {guessArr.map((char, i) => {
-        return <Character key={i} value={char} />;
+        return (
+          <Character
+            key={i}
+            value={char}
+            index={i}
+            submitted={guess.submitted}
+            type='guess'
+          />
+        );
       })}
     </div>
   );

@@ -34,5 +34,17 @@ export const evaluateGuess = (guess, color) => {
     return guess === color;
 }
 
+export const evaluatePosition = (color, char, i) => {
+    const colorIdx = color.indexOf(char);
+    switch (true) {
+        case colorIdx === i:
+            return 'correct';
+        case colorIdx !== i && colorIdx > -1:
+            return 'misplaced';
+        default:
+            return 'incorrect';
+    }
+}
+
 export const ENTER = 'ENTER';
 export const DELETE = 'DEL';

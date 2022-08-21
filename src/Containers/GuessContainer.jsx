@@ -7,7 +7,7 @@ export const GuessContainer = () => {
   return (
     <>
       {state.guesses?.map((guess, i) => {
-        return <Guess guess={guess} key={i} index={i} />;
+        return <Guess guess={guess} key={i} index={i}/>;
       })}
     </>
   );
