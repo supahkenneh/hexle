@@ -2,22 +2,25 @@ import Character from '../Components/Character';
 import { useContext } from 'react';
 import { HexleContext } from '../context';
 
-export const KeyboardContainer = (prop) => {
+export const KeyboardContainer = () => {
   const numberLine = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'DEL'];
   const alphaLine = ['A', 'B', 'C', 'D', 'E', 'F', 'ENTER'];
 
   const { state } = useContext(HexleContext);
   let incorrectChars = [];
-  state.guesses?.map((guess) => {
-    let splitGuess = guess.value.split('');
-    return splitGuess.forEach((char) => {
-      if (
-        incorrectChars.indexOf(char) === -1 &&
-        state.color.indexOf(char) === -1
-      )
-        incorrectChars.push(char);
-    });
+  state.guesses?.forEach((guess) => {
+    if (guess.submitted) {
+      let splitGuess = guess.value.split('');
+      return splitGuess.forEach((char) => {
+        if (
+          incorrectChars.indexOf(char) === -1 &&
+          state.color.indexOf(char) === -1
+        )
+          incorrectChars.push(char);
+      });
+    }
   });
+  
   return (
     <div className='keyboardContainer'>
       <div className='lines'>
@@ -31,7 +34,6 @@ export const KeyboardContainer = (prop) => {
               value={char}
               type='button'
               key={i}
-              click={prop.input}
               styleClass={keyClass}
             />
           );
@@ -48,7 +50,6 @@ export const KeyboardContainer = (prop) => {
               value={char}
               type='button'
               key={i}
-              click={prop.input}
               styleClass={keyClass}
             />
           );

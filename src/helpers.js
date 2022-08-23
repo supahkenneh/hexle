@@ -22,28 +22,22 @@ export const buildClassStr = (type, value, styleClass) => {
     return classes;
 }
 
-export const evaluateGuess = (guess, color) => {
-    // winText = {
-    //   header: 'Congratulations!',
-    //   descr: `You got the Hexle in ${
-    //     state.guesses?.length
-    //   }/6 attempts! \n Your current streak is ${window.localStorage.getItem(
-    //     'streak'
-    //   )}`,
-    // };
-    return guess === color;
-}
+export const evaluateGuess = (guess, color) => guess.value === color;
 
 export const evaluatePosition = (color, char, i) => {
     const colorIdx = color.indexOf(char);
-    switch (true) {
-        case colorIdx === i:
-            return 'correct';
-        case colorIdx !== i && colorIdx > -1:
-            return 'misplaced';
-        default:
-            return 'incorrect';
+    if (colorIdx === -1) return 'incorrect';
+    if (color[i] === char) return 'correct';
+    return 'misplaced';
+}
+
+export const getText = (state) => {
+    const text = {
+        header: `${state.win ? 'Congratulations!' : 'Sorry, you\'re out of guesses'}`,
+        descr: `${state.win ? `You got the Hexle in ${state.guesses.filter(guess => guess.value.length === 6 && guess.submitted).length}/6 attempts!` : `The hexcode was #${state.color.toUpperCase()}, better luck next time!`}`,
+        descr2: `${state.win ? `Your current streak is ${JSON.parse(window.localStorage.getItem('win-history')).streak}` : ''}`
     }
+    return text;
 }
 
 export const ENTER = 'ENTER';

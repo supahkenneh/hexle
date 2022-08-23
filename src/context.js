@@ -4,7 +4,8 @@ import { generateColor, evaluateGuess, ENTER, DELETE } from "./helpers";
 export const initialState = {
     color: '',
     guesses: [{ value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }, { value: '', submitted: false }],
-    win: false
+    win: false,
+    showScore: false,
 };
 
 export const HexleContext = createContext();
@@ -34,29 +35,46 @@ export const reducer = (state, action) => {
                     window.localStorage.setItem('color', color);
                 }
             }
+            let winHistory = JSON.parse(window.localStorage.getItem('win-history'));
+            const win = winHistory.win;
+            const showScore = false;
+            if (!winHistory) window.localStorage.setItem('win-history', JSON.stringify({ winCount: 0, streak: 0 }))
             let guesses = JSON.parse(window.localStorage.getItem('guesses'));
-            return { color, guesses: !guesses ? initialState.guesses : guesses, win: false };
+            return { color, guesses: !guesses ? initialState.guesses : guesses, win, showScore };
         case 'ENTER_CHAR':
             const { data } = action;
             if (data !== ENTER && data !== DELETE) {
-                for (let i = 0; i < state.guesses.length; i++) {
-                    if (state.guesses[i].value.length < 6) {
-                        if (i > 0 && !state.guesses[i - 1].submitted) {
+                if (!state.win) {
+                    for (let i = 0; i < state.guesses.length; i++) {
+                        if (state.guesses[i].value.length < 6) {
+                            if (i > 0 && !state.guesses[i - 1].submitted) {
+                                break;
+                            } else {
+                                state.guesses[i].value += data;
+                            }
                             break;
-                        } else {
-                            state.guesses[i].value += data;
                         }
-                        break;
                     }
+                } else {
+                    state.showScore = true;
                 }
             }
             if (data === ENTER) {
                 const submittedGuess = state.guesses.find(guess => guess.submitted === false && guess.value.length === 6)
                 if (submittedGuess) {
                     submittedGuess.submitted = true;
+                    const winHistory = JSON.parse(window.localStorage.getItem('win-history'));
                     if (evaluateGuess(submittedGuess, state.color)) {
                         state.win = true;
+                        winHistory['win'] = true;
+                        winHistory['winCount'] = winHistory['winCount'] ? 1 : winHistory['winCount'] + 1;
+                        winHistory['streak'] = winHistory['streak'] ? 1 : winHistory['streak'] + 1;
+                        state.showScore = true;
+                    } else if (state.guesses.filter(guess => guess.value.length === 6 && guess.submitted).length === 6) {
+                        winHistory['streak'] = 0;
+                        state.showScore = true;
                     }
+                    window.localStorage.setItem('win-history', JSON.stringify(winHistory));
                 }
             }
             if (data === DELETE) {
@@ -65,6 +83,9 @@ export const reducer = (state, action) => {
             }
             window.localStorage.setItem('guesses', JSON.stringify(state.guesses));
             return { ...state };
+        case 'HIDE_SCORE':
+            state.showScore = false;
+            return { ...state }
         default:
             break;
     }
