@@ -21,6 +21,11 @@ export const reducer = (state, action) => {
             if (!storedDate) {
                 // store today's date if no stored date
                 window.localStorage.setItem('date', today);
+                color = window.localStorage.getItem('color');
+                if (!color) {
+                    color = generateColor();
+                    window.localStorage.setItem('color', color);
+                }
             } else if (storedDate !== today) {
                 // new day - generate new color and store in browser
                 color = generateColor();
@@ -36,7 +41,7 @@ export const reducer = (state, action) => {
                 }
             }
             let winHistory = JSON.parse(window.localStorage.getItem('win-history'));
-            const win = winHistory.win;
+            const win = winHistory?.win;
             const showScore = false;
             if (!winHistory) window.localStorage.setItem('win-history', JSON.stringify({ winCount: 0, streak: 0 }))
             let guesses = JSON.parse(window.localStorage.getItem('guesses'));
