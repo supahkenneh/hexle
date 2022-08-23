@@ -14,6 +14,6 @@ In this game, a color is shown to you daily and you have 6 chances to guess the 
 - A gray box means the character does not exist in the hexcode
 
 ## Links
-- Game: https://www.supahkenneh.com/hexle
-- Github Repo: https://github.com/supahkenneh/hexle
-- Portfolio: https://www.kennychung.dev
+- [Game](https://www.supahkenneh.com/hexle)
+- [Github Repo](https://github.com/supahkenneh/hexle)
+- [Portfolio](https://kennychung.dev)
